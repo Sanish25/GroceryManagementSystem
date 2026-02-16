@@ -1,0 +1,92 @@
+/**
+ * GroceryManagementSystem
+ *
+ * A simple grocery inventory management system using parallel arrays.
+ * Each index across the arrays represents the same grocery item.
+ */
+import java.util.Scanner;
+
+public class GroceryManagementSystem {
+
+    public static void printInventory(String[] names, double[] prices, int[] stocks) {
+        System.out.println("\n--- Current Inventory ---");
+
+        for (int i = 0; i < names.length; i++) {
+            if (names[i] != null) {
+                System.out.println(
+                        "Item: " + names[i] +
+                        " | Price: $" + prices[i] +
+                        " | Stock: " + stocks[i]
+                );
+            }
+        }
+    }
+
+    public static void restockItem(String[] names, int[] stocks, String target, int amount) {
+        boolean found = false;
+
+        for (int i = 0; i < names.length; i++) {
+            if (names[i] != null && names[i].equalsIgnoreCase(target)) {
+                stocks[i] += amount;
+                System.out.println("Restocked " + target + ". New stock: " + stocks[i]);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Item not found.");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String[] itemNames = new String[10];
+        double[] itemPrices = new double[10];
+        int[] itemStocks = new int[10];
+
+        itemNames[0] = "Milk";
+        itemPrices[0] = 3.49;
+        itemStocks[0] = 20;
+
+        itemNames[1] = "Bread";
+        itemPrices[1] = 2.99;
+        itemStocks[1] = 15;
+
+        itemNames[2] = "Eggs";
+        itemPrices[2] = 4.99;
+        itemStocks[2] = 30;
+
+        while (true) {
+            System.out.println("\n--- Grocery Management System ---");
+            System.out.println("1. View Inventory");
+            System.out.println("2. Restock Item");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                printInventory(itemNames, itemPrices, itemStocks);
+            } else if (choice == 2) {
+                System.out.print("Enter item name to restock: ");
+                String target = scanner.nextLine();
+
+                System.out.print("Enter amount to add: ");
+                int amount = scanner.nextInt();
+
+                restockItem(itemNames, itemStocks, target, amount);
+            } else if (choice == 3) {
+                System.out.println("Exiting system...");
+                break;
+            } else {
+                System.out.println("Invalid option. Try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
